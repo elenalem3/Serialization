@@ -1,6 +1,6 @@
 import java.io.*;
 
-public class Basket {
+public class Basket implements Serializable {
     String[] products; //массив названий продуктов
     int[] prices; //массив цен
     int[] cart; //массив количества продуктов
@@ -36,7 +36,7 @@ public class Basket {
         System.out.println("Итого " + sumProducts + " руб");
     }
 
-    //метод сохранения корзины в текстовый файл; использовать встроенные сериализаторы нельзя;
+    //метод сохранения корзины в текстовый файл; использовать встроенные сериализаторы нельзя
     public void saveTxt(File textFile) throws IOException {
         try (PrintWriter out = new PrintWriter(textFile);) {
             for (String product : getProducts()) {
@@ -53,7 +53,7 @@ public class Basket {
         }
     }
 
-    //статический(!) метод восстановления объекта корзины из текстового файла, в который ранее была она сохранена;
+    //статический(!) метод восстановления объекта корзины из текстового файла, в который ранее была она сохранена
     public static Basket loadFromTxtFile(File textFile) {
         try (BufferedReader reader = new BufferedReader(new FileReader(textFile))) {
             String[] recovery = reader.readLine().split(" "); //восстанавливаем массив количества продуктов
@@ -72,6 +72,25 @@ public class Basket {
             basket.cart = recCart;
             return basket;
         } catch (Exception e) {
+            System.out.println("Не удалось восстановить объект корзины!");
+        }
+        return null;
+    }
+
+    //метод для сохранения в файл в бинарном формате
+    public void saveBin(File file) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
+            out.writeObject(Basket.this);
+        } catch (IOException e) {
+            System.out.println("Сохранить корзину в файл basket.bin не удалось!");
+        }
+    }
+
+    //метод для загрузки корзины из бинарного файла
+    public static Basket loadFromBinFile(File file) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
+            return (Basket) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
             System.out.println("Не удалось восстановить объект корзины!");
         }
         return null;

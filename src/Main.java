@@ -3,10 +3,13 @@ import java.util.Scanner;
 
 public class Main {
     static Basket basket;
+
     public static void main(String[] args) {
-        File textFile = new File("basket.txt");
+//        File textFile = new File("basket.txt");
+        File textFile = new File("basket.bin");
         if (textFile.exists()) {
-            basket = Basket.loadFromTxtFile(textFile);
+//            basket = Basket.loadFromTxtFile(textFile);
+            basket = Basket.loadFromBinFile(textFile);
         } else {
             basket = new Basket(new String[]{"Мясо", "Сыр", "Помидоры", "Хлеб", "Бананы"}, new int[]{500, 300, 110, 30, 90});
         }
