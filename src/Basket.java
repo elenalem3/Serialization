@@ -1,9 +1,9 @@
 import java.io.*;
 
 public class Basket {
-    String[] products; //массив названий продуктов
-    int[] prices; //массив цен
-    int[] cart; //массив количества продуктов
+    protected String[] products; //массив названий продуктов
+    protected int[] prices; //массив цен
+    protected int[] cart; //массив количества продуктов
 
     //конструктор, принимающий массив цен и названий продуктов
     public Basket(String[] products, int[] prices) {
